@@ -1,6 +1,6 @@
 # 🎬 PrimeTime
 
-A **Netflix-style free movie streaming site** built with pure HTML, CSS, and JavaScript — no frameworks, no build tools.  
+A free movie streaming site** built with pure HTML, CSS, and JavaScript — no frameworks, no build tools.  
 Browse millions of movies and TV shows powered by **TMDB**, and watch them via the **Vidking** embedded player.
 
 **Black & Purple theme · Responsive · Lightning fast**
@@ -33,33 +33,6 @@ Browse millions of movies and TV shows powered by **TMDB**, and watch them via t
 ├── script.js     # All JavaScript (TMDB API, My List, progress, search)
 └── README.md
 ```
-
----
-
-## 🛠 Tech Stack
-
-| Layer     | Technology                                   |
-|-----------|----------------------------------------------|
-| Frontend  | Plain HTML5, CSS3, JavaScript (ES2020)       |
-| Data API  | [TMDB](https://www.themoviedb.org/) REST API |
-| Player    | [Vidking](https://www.vidking.net/) embed    |
-| Fonts     | Google Fonts — Inter                         |
-| Hosting   | GitHub Pages / Vercel (static)               |
-
----
-
-## 🚀 Deploy
-
-### GitHub Pages
-1. Push this repo to GitHub
-2. Go to **Settings → Pages**
-3. Select **Branch: main** → **/ (root)**
-4. Click **Save** — your site will be live at `https://<user>.github.io/<repo>/`
-
-### Vercel
-1. Import the repo on [vercel.com](https://vercel.com)
-2. Framework preset: **Other** (static)
-3. Deploy — done!
 
 ---
 

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PrimeTime — Discover</title>
+
+  <!-- Favicon & PWA -->
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#8B5CF6" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+  <!-- OG Embed -->
+  <meta property="og:title" content="PrimeTime — Discover" />
+  <meta property="og:description" content="Swipe through movies and TV shows. Find your next watch on PrimeTime." />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="PrimeTime" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="swipe-page">
+
+  <!-- ===== NAVBAR ===== -->
+  <nav id="navbar" class="navbar-solid">
+    <div class="nav-left">
+      <a href="index.html" class="nav-logo">PRIMETIME</a>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="search.html?type=movie">Movies</a></li>
+        <li><a href="search.html?type=tv">TV Shows</a></li>
+        <li><a href="swipe.html" class="active">Discover</a></li>
+      </ul>
+    </div>
+    <div class="nav-right">
+      <div class="nav-search" id="nav-search">
+        <button class="search-btn" id="search-toggle" aria-label="Search">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+          </svg>
+        </button>
+        <input type="text" id="search-input" placeholder="Titles, people, genres" autocomplete="off" />
+      </div>
+      <div class="ad-toggle-wrap">
+        <span class="ad-toggle-label">Ads</span>
+        <label class="ad-toggle"><input type="checkbox" id="ad-toggle" checked><span class="ad-toggle-slider"></span></label>
+      </div>
+      <button class="hamburger" id="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ===== SWIPE CONTENT ===== -->
+  <main class="swipe-main">
+    <div class="swipe-header">
+      <h1 class="swipe-page-title">Discover</h1>
+      <p class="swipe-page-subtitle">Swipe right to save, left to skip</p>
+      <div class="swipe-filter-bar">
+        <button class="swipe-filter-btn active" data-filter="movie">Movies</button>
+        <button class="swipe-filter-btn" data-filter="tv">TV Shows</button>
+        <button class="swipe-filter-btn" data-filter="all">Both</button>
+      </div>
+    </div>
+
+    <div class="swipe-arena">
+      <!-- Cards stack here -->
+      <div class="swipe-stack" id="swipe-stack">
+        <!-- Cards injected by JS -->
+      </div>
+
+      <!-- Swipe indicator overlays -->
+      <div class="swipe-indicator swipe-indicator-like" id="swipe-like-indicator">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        <span>SAVED</span>
+      </div>
+      <div class="swipe-indicator swipe-indicator-nope" id="swipe-nope-indicator">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        <span>SKIP</span>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="swipe-actions">
+      <button class="swipe-action-btn swipe-btn-nope" id="swipe-btn-nope" aria-label="Skip">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+      <button class="swipe-action-btn swipe-btn-info" id="swipe-btn-info" aria-label="More Info">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+      </button>
+      <button class="swipe-action-btn swipe-btn-like" id="swipe-btn-like" aria-label="Save to My List">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+      </button>
+    </div>
+
+    <!-- Info Panel (slide up) -->
+    <div class="swipe-info-panel" id="swipe-info-panel">
+      <div class="swipe-info-backdrop" id="swipe-info-backdrop"></div>
+      <div class="swipe-info-body">
+        <button class="swipe-info-close" id="swipe-info-close" aria-label="Close">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+        <div class="swipe-info-content" id="swipe-info-content">
+          <!-- Filled by JS -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Empty state -->
+    <div class="swipe-empty" id="swipe-empty" style="display:none">
+      <div class="swipe-empty-icon">🎬</div>
+      <h2>No more to discover!</h2>
+      <p>Switch categories or come back later for fresh picks.</p>
+      <button class="btn btn-primary btn-3d" id="swipe-reload-btn">Load More</button>
+    </div>
+  </main>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <span class="footer-logo">PRIMETIME</span>
+      <p>&copy; 2026 PrimeTime. All rights reserved. Movie data provided by <a href="https://www.themoviedb.org/" target="_blank">TMDB</a>.</p>
+      <p class="footer-disclaimer">PrimeTime does not host any video content. All videos are served by third-party providers.</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

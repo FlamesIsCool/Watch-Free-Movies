@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PrimeTime — Who's Watching?</title>
+
+  <!-- Favicon & PWA -->
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#8B5CF6" />
+
+  <!-- OG Embed -->
+  <meta property="og:title" content="PrimeTime — Watch Free Movies & TV" />
+  <meta property="og:description" content="Cinema at your fingertips. Stream trending movies and TV shows for free." />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <!-- Popunder -->
+  <script src="https://pl29153553.profitablecpmratenetwork.com/8a/40/15/8a4015d24cf577cbc17905b52ea70bff.js"></script>
+</head>
+<body class="profiles-page">
+
+  <div class="ad-toggle-wrap ad-toggle-fixed">
+    <span class="ad-toggle-label">Ads</span>
+    <label class="ad-toggle"><input type="checkbox" id="ad-toggle" checked><span class="ad-toggle-slider"></span></label>
+  </div>
+
+  <div class="profiles-container">
+    <div class="profiles-logo">PRIMETIME</div>
+    <h1 class="profiles-title">Who's watching?</h1>
+
+    <div class="profiles-grid" id="profiles-grid">
+      <!-- Profiles injected by JS -->
+    </div>
+
+    <button class="btn btn-secondary btn-3d profiles-manage-btn" id="manage-profiles-btn">Manage Profiles</button>
+
+    <!-- Add/Edit Profile Modal -->
+    <div class="profile-modal" id="profile-modal" style="display:none">
+      <div class="profile-modal-card">
+        <h2 id="modal-title">Add Profile</h2>
+        <div class="profile-avatar-picker" id="avatar-picker">
+          <!-- Avatars -->
+        </div>
+        <div class="auth-field">
+          <input type="text" id="profile-name-input" required placeholder=" " maxlength="20" />
+          <label for="profile-name-input">Profile Name</label>
+          <div class="auth-field-border"></div>
+        </div>
+        <div class="profile-color-picker" id="color-picker"></div>
+        <div class="profile-modal-actions">
+          <button class="btn btn-primary btn-3d" id="save-profile-btn">Save</button>
+          <button class="btn btn-secondary btn-3d" id="cancel-profile-btn">Cancel</button>
+          <button class="btn btn-danger btn-3d" id="delete-profile-btn" style="display:none">Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="profiles-footer">
+    <button class="btn-text" id="signout-btn">Sign Out</button>
+  </div>
+
+  <script src="script.js"></script>
+  <script>
+    (function() {
+      const AVATARS = ['😀','😎','🤩','🥳','😈','👻','🦊','🐱','🐶','🦁','🐸','🦄','🎮','🎬','🎵','🏀','🚀','💎','🔥','⚡'];
+      const COLORS = ['#8B5CF6','#EC4899','#EF4444','#F97316','#EAB308','#22C55E','#06B6D4','#3B82F6','#6366F1','#A855F7'];
+
+      let auth;
+      try { auth = JSON.parse(localStorage.getItem('pt_auth') || '{}'); } catch(_) { auth = {}; }
+      if (!auth.loggedIn) { window.location.href = 'auth.html'; return; }
+
+      const accountId = auth.id;
+      let isManaging = false;
+      let editingId = null;
+
+      function getProfiles() {
+        try { return JSON.parse(localStorage.getItem('pt_profiles_' + accountId) || '[]'); }
+        catch { return []; }
+      }
+      function saveProfiles(profiles) {
+        localStorage.setItem('pt_profiles_' + accountId, JSON.stringify(profiles));
+      }
+
+      function render() {
+        const grid = document.getElementById('profiles-grid');
+        const profiles = getProfiles();
+        grid.innerHTML = '';
+
+        profiles.forEach(p => {
+          const el = document.createElement('div');
+          el.className = 'profile-item';
+          el.innerHTML = `
+            <div class="profile-avatar" style="background:${p.color || '#8B5CF6'}">
+              <span class="profile-avatar-emoji">${p.avatar || '😀'}</span>
+              ${isManaging ? '<div class="profile-edit-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></div>' : ''}
+            </div>
+            <div class="profile-name">${escHtml(p.name)}</div>
+          `;
+          el.addEventListener('click', () => {
+            if (isManaging) {
+              openModal(p);
+            } else {
+              localStorage.setItem('pt_active_profile', p.id);
+              window.location.href = 'index.html';
+            }
+          });
+          grid.appendChild(el);
+        });
+
+        // Add profile button (max 5)
+        if (profiles.length < 5) {
+          const addEl = document.createElement('div');
+          addEl.className = 'profile-item profile-add';
+          addEl.innerHTML = `
+            <div class="profile-avatar profile-avatar-add">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </div>
+            <div class="profile-name">Add Profile</div>
+          `;
+          addEl.addEventListener('click', () => openModal(null));
+          grid.appendChild(addEl);
+        }
+      }
+
+      function escHtml(str) {
+        return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+      }
+
+      // Modal
+      let selectedAvatar = '😀';
+      let selectedColor = '#8B5CF6';
+
+      function openModal(profile) {
+        editingId = profile ? profile.id : null;
+        selectedAvatar = profile ? (profile.avatar || '😀') : '😀';
+        selectedColor = profile ? (profile.color || '#8B5CF6') : COLORS[Math.floor(Math.random() * COLORS.length)];
+
+        document.getElementById('modal-title').textContent = profile ? 'Edit Profile' : 'Add Profile';
+        document.getElementById('profile-name-input').value = profile ? profile.name : '';
+        document.getElementById('delete-profile-btn').style.display = profile ? '' : 'none';
+
+        // Render avatar picker
+        const ap = document.getElementById('avatar-picker');
+        ap.innerHTML = AVATARS.map(a =>
+          `<button class="avatar-option${a === selectedAvatar ? ' selected' : ''}" data-avatar="${a}">${a}</button>`
+        ).join('');
+        ap.querySelectorAll('.avatar-option').forEach(btn => {
+          btn.addEventListener('click', () => {
+            selectedAvatar = btn.dataset.avatar;
+            ap.querySelectorAll('.avatar-option').forEach(b => b.classList.toggle('selected', b === btn));
+          });
+        });
+
+        // Render color picker
+        const cp = document.getElementById('color-picker');
+        cp.innerHTML = COLORS.map(c =>
+          `<button class="color-option${c === selectedColor ? ' selected' : ''}" data-color="${c}" style="background:${c}"></button>`
+        ).join('');
+        cp.querySelectorAll('.color-option').forEach(btn => {
+          btn.addEventListener('click', () => {
+            selectedColor = btn.dataset.color;
+            cp.querySelectorAll('.color-option').forEach(b => b.classList.toggle('selected', b === btn));
+          });
+        });
+
+        document.getElementById('profile-modal').style.display = 'flex';
+      }
+
+      document.getElementById('cancel-profile-btn').addEventListener('click', () => {
+        document.getElementById('profile-modal').style.display = 'none';
+      });
+
+      document.getElementById('save-profile-btn').addEventListener('click', () => {
+        const name = document.getElementById('profile-name-input').value.trim();
+        if (!name) return;
+
+        const profiles = getProfiles();
+        if (editingId) {
+          const p = profiles.find(p => p.id === editingId);
+          if (p) { p.name = name; p.avatar = selectedAvatar; p.color = selectedColor; }
+        } else {
+          profiles.push({ id: 'p' + Date.now(), name, avatar: selectedAvatar, color: selectedColor });
+        }
+        saveProfiles(profiles);
+        document.getElementById('profile-modal').style.display = 'none';
+        render();
+      });
+
+      document.getElementById('delete-profile-btn').addEventListener('click', () => {
+        if (!editingId) return;
+        const profiles = getProfiles().filter(p => p.id !== editingId);
+        saveProfiles(profiles);
+        // If deleted active profile, clear it
+        if (localStorage.getItem('pt_active_profile') === editingId) {
+          localStorage.removeItem('pt_active_profile');
+        }
+        document.getElementById('profile-modal').style.display = 'none';
+        render();
+      });
+
+      document.getElementById('manage-profiles-btn').addEventListener('click', () => {
+        isManaging = !isManaging;
+        document.getElementById('manage-profiles-btn').textContent = isManaging ? 'Done' : 'Manage Profiles';
+        render();
+      });
+
+      document.getElementById('signout-btn').addEventListener('click', () => {
+        localStorage.removeItem('pt_auth');
+        localStorage.removeItem('pt_active_profile');
+        window.location.href = 'auth.html';
+      });
+
+      // Init
+      const profiles = getProfiles();
+      if (profiles.length === 0) {
+        // Create default profile
+        saveProfiles([{ id: 'p1', name: auth.name || 'User', avatar: '😀', color: '#8B5CF6' }]);
+      }
+      render();
+    })();
+  </script>
+  <!-- Social Bar -->
+  <script src="https://pl29153555.profitablecpmratenetwork.com/06/e0/51/06e0518e44fedeecc8fa72c7131b1432.js"></script>
+</body>
+</html>

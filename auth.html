@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PrimeTime — Sign In</title>
+
+  <!-- Favicon & PWA -->
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#8B5CF6" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+  <!-- OG Embed -->
+  <meta property="og:title" content="PrimeTime — Watch Free Movies & TV" />
+  <meta property="og:description" content="Cinema at your fingertips. Stream trending movies and TV shows for free." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="https://image.tmdb.org/t/p/w780/placeholder.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <!-- Popunder -->
+  <script src="https://pl29153553.profitablecpmratenetwork.com/8a/40/15/8a4015d24cf577cbc17905b52ea70bff.js"></script>
+</head>
+<body class="auth-page">
+
+  <div class="ad-toggle-wrap ad-toggle-fixed">
+    <span class="ad-toggle-label">Ads</span>
+    <label class="ad-toggle"><input type="checkbox" id="ad-toggle" checked><span class="ad-toggle-slider"></span></label>
+  </div>
+
+  <div class="auth-bg">
+    <div class="auth-bg-gradient"></div>
+  </div>
+
+  <div class="auth-container">
+    <a href="index.html" class="auth-logo">PRIMETIME</a>
+
+    <!-- Sign In Form -->
+    <div class="auth-card" id="signin-card">
+      <h1 class="auth-title">Sign In</h1>
+      <p class="auth-subtitle">Welcome back to PrimeTime</p>
+
+      <form id="signin-form" autocomplete="off">
+        <div class="auth-field">
+          <input type="email" id="signin-email" required placeholder=" " autocomplete="email" />
+          <label for="signin-email">Email</label>
+          <div class="auth-field-border"></div>
+        </div>
+        <div class="auth-field">
+          <input type="password" id="signin-password" required placeholder=" " autocomplete="current-password" />
+          <label for="signin-password">Password</label>
+          <div class="auth-field-border"></div>
+        </div>
+        <div class="auth-error" id="signin-error"></div>
+        <button type="submit" class="btn btn-primary btn-3d auth-submit">
+          Sign In
+        </button>
+      </form>
+
+      <div class="auth-switch">
+        New to PrimeTime? <a href="#" id="show-signup">Sign up now</a>
+      </div>
+
+      <div class="auth-divider"><span>or continue as</span></div>
+      <button class="btn btn-secondary btn-3d auth-guest" id="guest-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        Guest
+      </button>
+    </div>
+
+    <!-- Sign Up Form -->
+    <div class="auth-card" id="signup-card" style="display:none">
+      <h1 class="auth-title">Sign Up</h1>
+      <p class="auth-subtitle">Create your PrimeTime account</p>
+
+      <form id="signup-form" autocomplete="off">
+        <div class="auth-field">
+          <input type="text" id="signup-name" required placeholder=" " autocomplete="name" />
+          <label for="signup-name">Display Name</label>
+          <div class="auth-field-border"></div>
+        </div>
+        <div class="auth-field">
+          <input type="email" id="signup-email" required placeholder=" " autocomplete="email" />
+          <label for="signup-email">Email</label>
+          <div class="auth-field-border"></div>
+        </div>
+        <div class="auth-field">
+          <input type="password" id="signup-password" required minlength="6" placeholder=" " autocomplete="new-password" />
+          <label for="signup-password">Password (min 6 chars)</label>
+          <div class="auth-field-border"></div>
+        </div>
+        <div class="auth-error" id="signup-error"></div>
+        <button type="submit" class="btn btn-primary btn-3d auth-submit">
+          Create Account
+        </button>
+      </form>
+
+      <div class="auth-switch">
+        Already have an account? <a href="#" id="show-signin">Sign in</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+  <script>
+    // Auth page logic
+    (function() {
+      const signinCard = document.getElementById('signin-card');
+      const signupCard = document.getElementById('signup-card');
+
+      document.getElementById('show-signup').addEventListener('click', (e) => {
+        e.preventDefault();
+        signinCard.style.display = 'none';
+        signupCard.style.display = '';
+      });
+
+      document.getElementById('show-signin').addEventListener('click', (e) => {
+        e.preventDefault();
+        signupCard.style.display = 'none';
+        signinCard.style.display = '';
+      });
+
+      // Sign Up
+      document.getElementById('signup-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const name = document.getElementById('signup-name').value.trim();
+        const email = document.getElementById('signup-email').value.trim();
+        const password = document.getElementById('signup-password').value;
+        const errEl = document.getElementById('signup-error');
+
+        if (!name || !email || !password) { errEl.textContent = 'All fields are required.'; return; }
+        if (password.length < 6) { errEl.textContent = 'Password must be at least 6 characters.'; return; }
+
+        // Check if account exists
+        const accounts = JSON.parse(localStorage.getItem('pt_accounts') || '[]');
+        if (accounts.find(a => a.email === email)) {
+          errEl.textContent = 'An account with this email already exists.';
+          return;
+        }
+
+        // Create account
+        const account = { id: Date.now().toString(36), name, email, createdAt: Date.now() };
+        accounts.push(account);
+        localStorage.setItem('pt_accounts', JSON.stringify(accounts));
+
+        // Create default profile
+        const profiles = [{ id: 'p1', name: name, color: '#8B5CF6', avatar: '😀' }];
+        localStorage.setItem('pt_profiles_' + account.id, JSON.stringify(profiles));
+
+        // Log in
+        localStorage.setItem('pt_auth', JSON.stringify({ ...account, loggedIn: true }));
+        localStorage.setItem('pt_active_profile', 'p1');
+
+        window.location.href = 'profiles.html';
+      });
+
+      // Sign In
+      document.getElementById('signin-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const email = document.getElementById('signin-email').value.trim();
+        const password = document.getElementById('signin-password').value;
+        const errEl = document.getElementById('signin-error');
+
+        if (!email || !password) { errEl.textContent = 'All fields are required.'; return; }
+
+        const accounts = JSON.parse(localStorage.getItem('pt_accounts') || '[]');
+        const account = accounts.find(a => a.email === email);
+
+        if (!account) {
+          errEl.textContent = 'No account found with this email.';
+          return;
+        }
+
+        // Log in (localStorage-based, no real password verification)
+        localStorage.setItem('pt_auth', JSON.stringify({ ...account, loggedIn: true }));
+        window.location.href = 'profiles.html';
+      });
+
+      // Guest mode
+      document.getElementById('guest-btn').addEventListener('click', () => {
+        localStorage.setItem('pt_auth', JSON.stringify({ id: 'guest', name: 'Guest', email: '', loggedIn: true, guest: true }));
+        localStorage.setItem('pt_active_profile', 'guest');
+        window.location.href = 'index.html';
+      });
+
+      // If already logged in, redirect
+      try {
+        const auth = JSON.parse(localStorage.getItem('pt_auth') || '{}');
+        if (auth.loggedIn) window.location.href = 'profiles.html';
+      } catch(_) {}
+    })();
+  </script>
+  <!-- Social Bar -->
+  <script src="https://pl29153555.profitablecpmratenetwork.com/06/e0/51/06e0518e44fedeecc8fa72c7131b1432.js"></script>
+</body>
+</html>

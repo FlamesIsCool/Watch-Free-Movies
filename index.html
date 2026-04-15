@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="google-adsense-account" content="ca-pub-1031497520457286" />
+  <title>PrimeTime — Watch Free Movies &amp; TV</title>
+
+  <!-- Favicon & PWA -->
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#8B5CF6" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+  <!-- OG Embed (purple theme) -->
+  <meta property="og:title" content="PrimeTime — Watch Free Movies & TV" />
+  <meta property="og:description" content="Cinema at your fingertips. Stream trending movies and TV shows for free on PrimeTime." />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="PrimeTime" />
+  <meta property="og:image" content="https://image.tmdb.org/t/p/w780/placeholder.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="PrimeTime — Watch Free Movies & TV" />
+  <meta name="twitter:description" content="Cinema at your fingertips. Stream trending movies and TV shows for free." />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1031497520457286"
+     crossorigin="anonymous"></script>
+  <!-- Popunder -->
+  <script src="https://pl29153553.profitablecpmratenetwork.com/8a/40/15/8a4015d24cf577cbc17905b52ea70bff.js"></script>
+</head>
+<body>
+
+  <!-- ===== SPLASH SCREEN ===== -->
+  <div id="splash-screen">
+    <div class="splash-content">
+      <div class="splash-logo">PRIMETIME</div>
+      <div class="splash-tagline">Cinema at your fingertips</div>
+      <div class="splash-loader">
+        <div class="splash-bar"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav id="navbar">
+    <div class="nav-left">
+      <a href="index.html" class="nav-logo">PRIMETIME</a>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="index.html" class="active">Home</a></li>
+        <li><a href="search.html?type=movie">Movies</a></li>
+        <li><a href="search.html?type=tv">TV Shows</a></li>
+        <li><a href="#" id="my-list-nav">My List</a></li>
+        <li><a href="swipe.html">Discover</a></li>
+      </ul>
+    </div>
+    <div class="nav-right">
+      <div class="nav-search" id="nav-search">
+        <button class="search-btn" id="search-toggle" aria-label="Search">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+          </svg>
+        </button>
+        <input type="text" id="search-input" placeholder="Titles, people, genres" autocomplete="off" />
+      </div>
+      <div class="ad-toggle-wrap">
+        <span class="ad-toggle-label">Ads</span>
+        <label class="ad-toggle"><input type="checkbox" id="ad-toggle" checked><span class="ad-toggle-slider"></span></label>
+      </div>
+      <button class="hamburger" id="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ===== MAIN CONTENT ===== -->
+  <main id="main-content" style="opacity:0; transition: opacity 0.6s ease;">
+
+    <!-- Hero Section -->
+    <section id="hero" class="hero">
+      <div class="hero-backdrop" id="hero-backdrop"></div>
+      <div class="hero-overlay"></div>
+      <div class="hero-content">
+        <div class="hero-badge">🎬 Featured</div>
+        <h1 class="hero-title" id="hero-title">Loading...</h1>
+        <p class="hero-desc" id="hero-desc"></p>
+        <div class="hero-meta" id="hero-meta"></div>
+        <div class="hero-buttons">
+          <button class="btn btn-primary btn-3d" id="hero-play-btn">
+            <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Play
+          </button>
+          <button class="btn btn-secondary btn-3d" id="hero-info-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            More Info
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Category Rows Container -->
+    <section id="categories" class="categories">
+      <!-- Rows injected by JS -->
+    </section>
+
+    <!-- Native Banner Ad -->
+    <div class="ad-container-native">
+      <span class="ad-label">Sponsored</span>
+      <script async="async" data-cfasync="false" src="https://pl29153554.profitablecpmratenetwork.com/e88b0a2edfc854e934339620947c0a4c/invoke.js"></script>
+      <div id="container-e88b0a2edfc854e934339620947c0a4c"></div>
+    </div>
+
+    <!-- Banner 468x60 -->
+    <div class="ad-container-banner">
+      <script>
+        atOptions = {
+          'key' : '74c4da0c7bcc5ec15ed424a08632b953',
+          'format' : 'iframe',
+          'height' : 60,
+          'width' : 468,
+          'params' : {}
+        };
+      </script>
+      <script src="https://www.highperformanceformat.com/74c4da0c7bcc5ec15ed424a08632b953/invoke.js"></script>
+    </div>
+
+  </main>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <span class="footer-logo">PRIMETIME</span>
+      <p>© 2026 PrimeTime. All rights reserved. Movie data provided by <a href="https://www.themoviedb.org/" target="_blank">TMDB</a>.</p>
+      <p class="footer-disclaimer">PrimeTime does not host any video content. All videos are served by third-party providers.</p>
+      <p class="footer-sponsor"><a href="https://www.profitablecpmratenetwork.com/u2easx0x?key=3a6e239f990622e45be4b20cc53b190d" target="_blank" rel="noopener">Sponsored</a></p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+  <!-- Social Bar -->
+  <script src="https://pl29153555.profitablecpmratenetwork.com/06/e0/51/06e0518e44fedeecc8fa72c7131b1432.js"></script>
+</body>
+</html>

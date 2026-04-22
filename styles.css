@@ -1520,7 +1520,7 @@ ul { list-style: none; }
   font-weight: 700;
   margin-bottom: 8px;
   text-decoration: none;
-  box-shadow: 0 8px 25px rgba(139,92,246,0.3);
+  box-shadow: 0 8px 25px var(--purple-glow-sm);
 }
 
 .download-btn svg {

@@ -1466,6 +1466,74 @@ ul { list-style: none; }
 .footer-disclaimer { color: var(--text-dim) !important; font-size: 0.72rem !important; }
 
 /* ============================================================
+   SUPPORT + DOWNLOADS
+   ============================================================ */
+.support-section {
+  width: min(1100px, 92%);
+  margin: 36px auto 20px;
+}
+
+.support-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.support-card {
+  background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 16px;
+  padding: 20px;
+}
+
+.support-card h2 {
+  font-size: 1.1rem;
+  margin-bottom: 12px;
+  color: var(--text);
+}
+
+.support-card p {
+  margin: 8px 0;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.support-card code {
+  background: rgba(0,0,0,0.35);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 8px;
+  padding: 3px 7px;
+  color: var(--purple-light);
+  font-size: 0.76rem;
+  word-break: break-all;
+}
+
+.download-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, var(--purple), var(--purple-dark));
+  color: #fff !important;
+  border-radius: 999px;
+  padding: 10px 14px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  text-decoration: none;
+  box-shadow: 0 8px 25px rgba(139,92,246,0.3);
+}
+
+.download-btn svg {
+  width: 16px;
+  height: 16px;
+}
+
+.download-btn:hover {
+  filter: brightness(1.08);
+  text-decoration: none !important;
+}
+
+/* ============================================================
    AD CONTAINERS
    ============================================================ */
 .ad-container {
@@ -1607,6 +1675,7 @@ body.ads-hidden .footer-sponsor {
   .movie-card { width: 240px; }
   .skeleton-card { width: 240px; }
   .search-results-grid { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
+  .support-grid { grid-template-columns: 1fr; }
   #navbar { width: 90%; min-width: auto; }
   .nav-links.mobile-open { width: 90%; }
 }
